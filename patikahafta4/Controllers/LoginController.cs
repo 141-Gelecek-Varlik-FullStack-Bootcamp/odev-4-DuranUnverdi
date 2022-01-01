@@ -25,7 +25,7 @@ namespace patikahafta4.Controllers
           
         }
         [HttpPost]
-        public User Login([FromBody] User user)
+        public async Task<IActionResult> Login([FromBody] User user)
         {
             var dataValue = _userService.TGetByFilter(x => x.UserMail == user.UserMail && x.UserPassword == user.UserPassword);
             if (dataValue != null)
@@ -39,9 +39,14 @@ namespace patikahafta4.Controllers
                     };
                     _memoryCache.Set(cacheKey, dataValue, cacheOptions);
                     //_currentUser.SetCurrentUser(model.Entity)  
-                }                
+                }    
+                return Ok();
             }
-           return user;
+            else
+            {
+                return BadRequest();
+            }
+            
         }
     }
 }

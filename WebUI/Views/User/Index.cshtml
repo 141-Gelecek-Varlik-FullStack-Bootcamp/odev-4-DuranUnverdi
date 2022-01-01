@@ -1,0 +1,34 @@
+﻿@model EntityLayer.Concrete.User
+<section class="main-content-w3layouts-agileits">
+    <div class="container">
+        <h3 class="tittle">Oturum Aç</h3>
+        <div class="row inner-sec">
+            <div class="login p-5 bg-light mx-auto mw-100">
+                @using (Html.BeginForm("InsertUser", "User", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <label for="exampleInputEmail1 mb-4">Kullanıcı Adı</label>
+                        @Html.TextBoxFor(x => x.UserName, new
+                        {
+                            @class = "form-control"
+                        })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1 mb-4">Mail Adresi</label>
+                        @Html.TextBoxFor(x => x.UserMail, new { @class = "form-control",
+                            type = "email" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1 mb-4">Şifre</label>
+                        @Html.TextBoxFor(x => x.UserPassword, new { @class = "form-control",
+                       type = "password"
+                   })
+                    </div>
+                    <button type="submit" class="btn btn-primary submit mb-4">Üye Ol</button>
+                }
+
+
+            </div>
+        </div>
+    </div>
+</section>

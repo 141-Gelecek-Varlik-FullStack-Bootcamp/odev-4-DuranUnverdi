@@ -14,20 +14,22 @@ namespace patikahafta4.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductApiController : ControllerBase
     {
         private readonly IProductService _productService;
 
-        public ProductController(IProductService productService)
+        public ProductApiController(IProductService productService)
         {
             _productService = productService;
         }
         [HttpPost]
-        [ServiceFilter(typeof(LoginFilter))]
-        public Product Insert([FromBody] Product product)
+       [ServiceFilter(typeof(LoginFilter))]
+        public async Task<IActionResult> InsertProduct([FromBody] Product product)
         {
+            product.CategoryId = 1;
+            product.ProductStatus = true;
             _productService.TAdd(product);
-            return product;
+            return Ok();
         }
         [HttpGet]
         public List<Product> GetProduct()

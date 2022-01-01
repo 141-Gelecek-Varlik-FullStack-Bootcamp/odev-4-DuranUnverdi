@@ -2,8 +2,10 @@
 using BusinessLayer.Concrete;
 using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
+using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using patikahafta4.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace odev4.Controller
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserApiController : ControllerBase
     {
         // private readonly UserManager _userManager;
         //public UserController(UserManager userManager)
@@ -21,21 +23,29 @@ namespace odev4.Controller
         //    _userManager = userManager;
         //}
        private readonly IUserService _userService;
-
-        public UserController(IUserService userService)
+        private readonly MailJob _mailJobs;
+        public UserApiController(IUserService userService)
         {
             _userService = userService;
         }
-        [HttpPost]
-        public User Insert([FromBody] User user)
+
+        public UserApiController(IUserService userService, MailJob mailJobs) : this(userService)
         {
-            _userService.TAdd(user);
-            return user;
+            _mailJobs = mailJobs;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> InsertUser([FromBody] User user)
+        {
+           _userService.TAdd(user);
+            BackgroundJob.Schedule(() => _mailJobs.SendWelcomeMail(user.UserName, user.UserMail), TimeSpan.FromSeconds(15));
+            return  Ok();
         }
         [HttpGet]
         public List<User> GetUser()
         {
             return _userService.GetList();
+       
         }
         [HttpGet]
         public User Edit(int id)

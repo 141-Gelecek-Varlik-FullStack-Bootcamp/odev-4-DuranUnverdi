@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+}
+<section class="main-content-w3layouts-agileits">
+    <div class="container">
+        <h3 class="tittle">Oturum Aç</h3>
+        <div class="row inner-sec">
+            <div class="login p-5 bg-light mx-auto mw-100">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1 mb-2">Mail Adresi</label>
+                        <input type="email" class="form-control" name="UserMail" id="UserMail" aria-describedby="emailHelp" placeholder="" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1 mb-2">Şifre</label>
+                        <input type="password" name="UserPassword" class="form-control" id="UserPassword" placeholder="" required="">
+                    </div>
+                    <div class="form-check mb-2">s
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Beni Hatırla</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary submit mb-4">Oturum Aç</button> 
+                    <div>
+                        <a href="/User/Index" class="btn btn-success">Üye Ol</a>
+                    </div>
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

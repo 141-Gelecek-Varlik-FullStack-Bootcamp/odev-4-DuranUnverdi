@@ -1,0 +1,23 @@
+﻿
+@using EntityLayer.Concrete
+@model List<Product>
+
+<h1>Ürün Listesi</h1>
+<table class="table table-bordered">
+    <tr>
+        <th>#</th>
+        <th>Ürün Fiyatı</th>
+        <th>Ürün Stok</th>
+ 
+
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ProductId</td>
+            <td>@item.ProductPrice</td>
+            <td>@item.ProductStok</td>
+        </tr>
+    }
+</table>
+<a href="/Product/InsertProduct" class="btn btn-info">Yeni Ürün Ekle</a>

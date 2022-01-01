@@ -15,11 +15,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Hangfire;
 namespace patikahafta4
 {
     public class Startup
     {
+       
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -38,9 +39,12 @@ namespace patikahafta4
             });
             services.AddSingleton<IUserService>(new UserManager(new EfUserRepository()));
             services.AddSingleton<IProductService>(new ProductManager(new EfProductRepository()));
+            services.AddTransient<IMailService, MailManager>();
             services.AddScoped<LoginFilter>();
             services.AddMemoryCache();
-            //services.AddSingleton<ICategoryService>(new CategoryManager(new ()));
+            //services.AddSingleton<ICategoryService>(new CategoryManager());         
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddHangfireServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +56,9 @@ namespace patikahafta4
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "patikahafta4 v1"));
             }
+            app.UseHangfireServer();
 
+           app.UseHangfireDashboard();
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -63,6 +69,7 @@ namespace patikahafta4
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }
